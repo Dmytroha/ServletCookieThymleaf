@@ -4,14 +4,17 @@ import java.time.DateTimeException;
 import java.time.ZoneId;
 
 public final class ServletUtils {
-    public static void saveTimeZoneToCookie(){
-        //TODO save time zone to cookie
+    public static final String TIMEZONE_PARAMETER = "timezone";
 
-    }
-
-    public static String getTimeZoneFromCookie() {
-//TODO read time zone form cookie
-        return "UTC";
+    /**
+     *  ex:  http://127.0.0.1:8080/ServletCookieThymleaf-0.0.1/time?timezone=UTC+5
+     *  '+' replaces to ' '
+     *  this method parse string and replaces gap with +
+     * @param timeZoneFromURL
+     * @return timeZoneFromURL without gap
+     */
+    public static String replaceGapWithPlusInTimeZoneParamFromURL(String timeZoneFromURL){
+        return String.join("+",timeZoneFromURL.split(" "));
     }
     public static boolean isValidTimeZone(String timeZone){
         try {

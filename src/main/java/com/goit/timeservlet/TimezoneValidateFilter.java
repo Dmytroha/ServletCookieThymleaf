@@ -10,13 +10,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+import static com.goit.timeservlet.utils.ServletUtils.TIMEZONE_PARAMETER;
 import static com.goit.timeservlet.utils.ServletUtils.isValidTimeZone;
 
 @WebFilter(value="/time")
 public class TimezoneValidateFilter extends HttpFilter  {
-    private static final String TIMEZONE_PARAMETER = "timezone";
-    private static final String GMT_TZ = "GMT";
-    private static final String UTC_TZ = "UTC";
+
+
 
 
     @Override
@@ -25,7 +25,8 @@ public class TimezoneValidateFilter extends HttpFilter  {
         Optional<String> optionalS = getRequestedTimeZone(req);
 
          if(optionalS.isPresent()) {
-             if (!isValidTimeZone(optionalS.get())) {
+
+             if (!isValidTimeZone(String.join("+",optionalS.get().split(" ")))) {
                  res.setContentType("text/html; charset=utf-8");
                  res.sendError(400, "From doFilter: Invalid TimeZone: " + optionalS.get());
              } else {

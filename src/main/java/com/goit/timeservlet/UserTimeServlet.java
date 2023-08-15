@@ -49,7 +49,7 @@ public class UserTimeServlet extends HttpServlet {
         Context simpleContext = new Context(req.getLocale());
         Map<String, Object> variables = new LinkedHashMap<>();
 
-        String timezone = replaceGapWithPlusInTimeZoneParamFromURL(getTimeZoneParameter(req)); // try Optional
+        String timezone = replaceGapWithPlusInTimeZoneParamFromURL(getTimeZoneParameter(req));
         if(!timezone.equals(DEFAULT_TZ)){
             addLastTimeZoneToCookie(resp,timezone); //saves timezone to cookie
         }
@@ -77,9 +77,6 @@ public class UserTimeServlet extends HttpServlet {
 
     private String getTimeZoneParameter(HttpServletRequest req){
 
-        //String[] params = new String[1]; // the same as String but String array type
-       // params[0]=req.getParameter("timezone");
-
         String timeZoneParam = req.getParameter( TIMEZONE_PARAMETER);
         if (timeZoneParam != null && !timeZoneParam.isEmpty()) {
             return timeZoneParam;
@@ -97,21 +94,6 @@ public class UserTimeServlet extends HttpServlet {
 
         return DEFAULT_TZ;
 
-//--------------------------------------------------------------------
-       /* if(Optional.ofNullable( params[0]).isEmpty()) {
-           Optional<Cookie[]> optionalCookies = Optional.ofNullable(cookies);
-            if(optionalCookies.isPresent()){
-                params[0] =  (String) (Stream.of(optionalCookies.get())
-                        .filter(cookie -> cookie.getName().equals(LAST_TIMEZONE_COOKIE_NAME))
-                        .map(Cookie::getValue)
-                        .toArray())[0];
-                return params[0];
-            } else {
-                return DEFAULT_TZ;
-            }
-        }else{
-            return params[0];
-        }*/
     }
 
     private void addLastTimeZoneToCookie(HttpServletResponse resp,String timeZone){
